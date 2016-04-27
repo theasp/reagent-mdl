@@ -471,7 +471,7 @@
       (set! (.-title js/document) title)
       (set! (.-title js/document) (str title " - " subtitle)))
 
-    [:div
+    [:div other-props
      (when dialogs
        (into [:div] dialogs))
      [layout (assoc (:layout props)
