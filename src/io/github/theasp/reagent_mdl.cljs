@@ -3,7 +3,9 @@
    [clojure.string :as str]
    [reagent.core :as r]
    [cljsjs.material :as material]
-   [cljsjs.dialog-polyfill :as dialog]))
+   [cljsjs.dialog-polyfill :as dialog]
+   [taoensso.timbre :as timbre
+    :refer-macros (tracef debugf infof warnf errorf)]))
 
 (defn join [& args]
   (str/join " " (remove nil? (flatten args))))
