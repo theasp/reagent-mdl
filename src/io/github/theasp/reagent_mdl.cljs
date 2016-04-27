@@ -215,6 +215,67 @@
        (when-let [label (or label content)]
          [:span.mdl-checkbox__label label])]]]))
 
+(defn set-radio-state [node props]
+  (if (:checked? props)
+    (.MaterialRadio.check node)
+    (.MaterialRadio.uncheck node))
+
+  (if (:disabled? props)
+    (.MaterialRadio.disable node)
+    (.MaterialRadio.enable node)))
+
+
+(defn radio-state
+  "Returns a reagent class that corrects the state of a radio"
+  [props child]
+  (r/create-class
+   {:display-name "radio-state"
+    :component-will-update
+    (fn [node [_ props]] (set-radio-state (r/dom-node node) props))
+
+    :component-did-mount
+    (fn [node] (set-radio-state (r/dom-node node) props))
+
+    :reagent-render
+    (fn [child] child)}))
+
+(def radio-props
+  [:value :checked? :disabled? :label :on-change :ripple? :cursor])
+
+(defn radio [& content]
+  (let [[props other-props content]
+        (extract-props content radio-props)
+
+        {:keys [value checked? disabled? label on-change ripple? cursor]}
+        props
+
+        label-props {:class (join "mdl-radio mdl-js-radio"
+                                  [(when ripple? "mdl-js-ripple-effect")])}
+
+        checked?    (if (some? checked?)
+                      checked?
+                      (when (some? cursor)
+                        (= @cursor value)))
+
+        on-change   (or on-change
+                        (when (some? cursor)
+                          #(when (.-target.checked %)
+                             (reset! cursor value))))
+
+        input-props (merge {:class     ""
+                            :type      :radio
+                            :value     value
+                            :on-change on-change}
+                           other-props)]
+
+    [radio-state {:disabled? disabled?
+                  :checked?  checked?}
+     [upgrade
+      [:label label-props
+       [:input.mdl-radio__button input-props]
+       (when-let [label (or label content)]
+         [:span.mdl-radio__label label])]]]))
+
 (def button-prop-list
   [:type :colored? :primary? :accent? :ripple?])
 
