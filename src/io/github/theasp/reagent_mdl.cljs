@@ -46,7 +46,10 @@
         class
         (join (:class props)
               (map #(when-let [value (get props %)]
-                      (prop-to-class % value))
+                      (if (map? prop-to-class)
+                        (when value
+                          (get prop-to-class %))
+                        (prop-to-class % value)))
                    (keys (dissoc props :class)))
               base-class)
 
