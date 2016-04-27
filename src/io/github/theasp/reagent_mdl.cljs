@@ -288,10 +288,10 @@
                 :icon     "mdl-button--icon"
                 :flat     nil
                 nil)
-    :colored? "mdl-button--colored"
-    :primary? "mdl-button--primary"
-    :accent?  "mdl-button--accent"
-    :ripple?  "mdl-js-ripple-effect"))
+    :colored? (when v "mdl-button--colored")
+    :primary? (when v "mdl-button--primary")
+    :accent?  (when v "mdl-button--accent")
+    :ripple?  (when v "mdl-js-ripple-effect")))
 
 (defn button [& content]
   (mdl-element :button "mdl-button mdl-js-button" content true
@@ -336,14 +336,14 @@
                       (str "mdl-cell--" v "-col-order-tablet"))
     :order-phone    (when (and (integer? v) (<= 1 v 12))
                       (str "mdl-cell--" v "-col-order-phone"))
-    :hide?          "mdl-cell--hide"
-    :hide-desktop?  "mdl-cell--hide-desktop"
-    :hide-tablet?   "mdl-cell--hide-tablet"
-    :hide-phone?    "mdl-cell--hide-phone"
-    :stretch?       "mdl-cell--stretch"
-    :top?           "mdl-cell--top"
-    :middle?        "mdl-cell--middle"
-    :bottom?        "mdl-cell--bottom"))
+    :hide?          (when v "mdl-cell--hide")
+    :hide-desktop?  (when v "mdl-cell--hide-desktop")
+    :hide-tablet?   (when v "mdl-cell--hide-tablet")
+    :hide-phone?    (when v "mdl-cell--hide-phone")
+    :stretch?       (when v "mdl-cell--stretch")
+    :top?           (when v "mdl-cell--top")
+    :middle?        (when v "mdl-cell--middle")
+    :bottom?        (when v "mdl-cell--bottom")))
 
 (defn cell [& content]
   (mdl-element :div "mdl-cell" content false cell-prop-to-class cell-prop-list))
@@ -355,6 +355,7 @@
    :fixed-tabs?               "mdl-layout--fixed-tabs"
    :no-drawer-button?         "mdl-layout--no-drawer-button"
    :no-desktop-drawer-button? "mdl-layout--no-desktop-drawer-button"})
+
 (defn layout [& content]
   (mdl-element :div "mdl-layout mdl-js-layout" content true layout-props))
 
