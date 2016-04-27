@@ -396,6 +396,37 @@
 (defn menu-item [& content]
   (mdl-element :li "mdl-menu__item" content))
 
+(defn card-prop-to-class [k v]
+  (condp = k
+    :shadow (when (and (integer? v) (<= 2 v 16))
+              (str "mdl-shadow--" v "dp"))))
+
+(def card-prop-list [:shadow])
+
+(defn card [& content]
+  (mdl-element :div "mdl-card" content false card-prop-to-class card-prop-list))
+
+
+(def card-inner-props {:border? "mdl-card--border"})
+
+(defn card-title [& content]
+  (mdl-element :div "mdl-card__title" content false card-inner-props))
+
+(defn card-title-text [& content]
+  (mdl-element :span "mdl-card__title-text" content))
+
+(defn card-subtitle-text [& content]
+  (mdl-element :span "mdl-card__subtitle-text" content))
+
+(defn card-media [& content]
+  (mdl-element :div "mdl-card__media" content false card-inner-props))
+
+(defn card-supporting-text [& content]
+  (mdl-element :div "mdl-card__supporting-text" content false card-inner-props))
+
+(defn card-actions [& content]
+  (mdl-element :div "mdl-card__actions" content false card-inner-props))
+
 (defn header-menu-items [menu-items]
   [upgrade
    (into     [:ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect
