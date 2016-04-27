@@ -7,6 +7,7 @@
                  [org.clojure/clojurescript "1.8.34"]
                  [cljsjs/material "1.1.3-0"]
                  [cljsjs/dialog-polyfill "0.4.3-0"]
+                 [com.taoensso/timbre "4.3.1"]
                  [reagent "0.5.1"]]
 
   :plugins [[lein-cljsbuild "1.1.1"]])
