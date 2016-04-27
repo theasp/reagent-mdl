@@ -160,12 +160,12 @@
 
 (defn set-checkbox-state [node props]
   (if (:checked? props)
-    (.MaterialCheckbox.check (r/dom-node node))
-    (.MaterialCheckbox.uncheck (r/dom-node node)))
+    (.MaterialCheckbox.check node)
+    (.MaterialCheckbox.uncheck node))
 
   (if (:disabled? props)
-    (.MaterialCheckbox.disable (r/dom-node node))
-    (.MaterialCheckbox.enable (r/dom-node node))))
+    (.MaterialCheckbox.disable node)
+    (.MaterialCheckbox.enable node)))
 
 (defn checkbox-state
   "Returns a reagent class that corrects the state of a checkbox"
@@ -173,10 +173,10 @@
   (r/create-class
    {:display-name "checkbox-state"
     :component-will-update
-    (fn [node [_ props]] (set-checkbox-state node props))
+    (fn [node [_ props]] (set-checkbox-state (r/dom-node node) props))
 
     :component-did-mount
-    (fn [node] (set-checkbox-state node props))
+    (fn [node] (set-checkbox-state (r/dom-node node) props))
 
     :reagent-render
     (fn [child] child)}))
