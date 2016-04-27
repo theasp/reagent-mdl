@@ -186,7 +186,7 @@
 
 (defn checkbox [& content]
   (let [[props other-props content]
-        (extract-props content textfield-props)
+        (extract-props content checkbox-props)
 
         {:keys [checked? disabled? label on-change ripple? cursor]}
         props
