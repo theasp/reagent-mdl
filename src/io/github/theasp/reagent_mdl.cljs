@@ -433,9 +433,10 @@
 
 (defn header-menu-items [menu-items]
   [upgrade
-   (into     [:ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect
-              {:for "header-menu"}]
-             menu-items)])
+   (into [:ul
+          {:class "mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+           :for   "header-menu"}]
+         menu-items)])
 
 (defn header-menu [menu-items]
   [button {:type :icon
