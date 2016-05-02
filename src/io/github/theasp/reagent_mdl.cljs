@@ -297,6 +297,10 @@
   (mdl-element :button "mdl-button mdl-js-button" content true
                button-prop-to-class button-prop-list))
 
+(defn link-button [& content]
+  (mdl-element :a "mdl-button mdl-js-button" content true
+               button-prop-to-class button-prop-list))
+
 (def grid-prop-to-class
   {:no-spacing? "mdl-grid--no-spacing"})
 
