@@ -431,6 +431,41 @@
 (defn card-actions [& content]
   (mdl-element :div "mdl-card__actions" content false card-inner-props))
 
+(defn ul-list [& content]
+  (mdl-element :ul "mdl-list" content))
+
+(defn list-item-prop-to-class [k v]
+  (condp = k
+    :lines (condp = v
+             1 ""
+             2 "mdl-list__item--two-line"
+             3 "mdl-list__item--three-line"
+             "")))
+
+(defn list-item [& content]
+  (mdl-element :li "mdl-list__item" content false list-item-prop-to-class [:lines]))
+
+(defn list-item-primary-content [& content]
+  (mdl-element :span "mdl-list__item-primary-content" content))
+
+(defn list-item-secondary-content [& content]
+  (mdl-element :span "mdl-list__item-secondary-content" content))
+
+(defn list-item-secondary-content [& content]
+  (mdl-element :span "mdl-list__item-secondary-content" content))
+
+(defn list-item-secondary-action [& content]
+  (mdl-element :span "mdl-list__item-secondary-action" content))
+
+(defn list-item-secondary-info [& content]
+  (mdl-element :span "mdl-list__item-secondary-info" content))
+
+(defn list-item-text-body [& content]
+  (mdl-element :span "mdl-list__item-text-body" content))
+
+(defn list-item-icon [& content]
+  (mdl-element :i "material-icons mdl-list__item-icon" content))
+
 (defn header-menu-items [menu-items]
   [upgrade
    (into [:ul
