@@ -451,9 +451,6 @@
 (defn list-item-secondary-content [& content]
   (mdl-element :span "mdl-list__item-secondary-content" content))
 
-(defn list-item-secondary-content [& content]
-  (mdl-element :span "mdl-list__item-secondary-content" content))
-
 (defn list-item-secondary-action [& content]
   (mdl-element :span "mdl-list__item-secondary-action" content))
 
