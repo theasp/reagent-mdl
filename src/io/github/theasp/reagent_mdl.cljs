@@ -479,6 +479,9 @@
 (defn list-item-icon [& content]
   (mdl-element :i "material-icons mdl-list__item-icon" content))
 
+(defn list-item-avatar [& content]
+  (mdl-element :i "material-avatars mdl-list__item-avatar" content))
+
 (defn header-menu-items [menu-items]
   [upgrade
    (into [:ul
