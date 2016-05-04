@@ -68,13 +68,7 @@
 (defn icon [& content]
   (mdl-element :i "material-icons" content))
 
-(defn set-textfield-state [node {:keys [disabled? value]}]
-  (let [dom-node (r/dom-node node)]
-    (if disabled?
-      (.MaterialTextfield.disable dom-node)
-      (.MaterialTextfield.enable dom-node))
 
-    (.MaterialTextfield.change dom-node value)))
 
 (defn textfield-state
   "Returns a reagent class that corrects the state of a checkbox"
@@ -82,10 +76,30 @@
   (r/create-class
    {:display-name "textfield-state"
     :component-will-update
-    (fn [node [_ props]] (set-textfield-state node props))
+    (fn [node [_ {:keys [disabled? value]}]]
+      (let [dom-node (r/dom-node node)]
+        (.MaterialTextfield.change dom-node value)))
+
+    :component-did-update
+    (fn [node [_ {:keys [value error pattern disabled?] :as props}]]
+      (let [dom-node (r/dom-node node)]
+        (if disabled?
+          (.MaterialTextfield.disable dom-node)
+          (.MaterialTextfield.enable dom-node))
+
+        (when (and error
+                   (not pattern)
+                   (not (str/index-of (.-className dom-node) "is-invalid")))
+          (set! (.-className dom-node) (str (.-className dom-node) " is-invalid")))
+
+        (when (and value
+                   (not (str/index-of (.-className dom-node) "is-dirty")))
+          (set! (.-className dom-node) (str (.-className dom-node) " is-dirty")))))
 
     :component-did-mount
-    (fn [node] (set-textfield-state node props))
+    (fn [node]
+      (let [dom-node (r/dom-node node)]
+        (.MaterialTextfield.change dom-node (:value props))))
 
     :reagent-render
     (fn [child] child)}))
@@ -139,7 +153,9 @@
                                       [(when expandable?
                                          "mdl-textfield--expandable")
                                        (when floating-label?
-                                         "mdl-textfield--floating-label")])}]
+                                         "mdl-textfield--floating-label")
+                                       (when (and error (not pattern))
+                                         "is-invalid")])}]
     [textfield-state {:value     value
                       :disabled? disabled?}
      [upgrade
