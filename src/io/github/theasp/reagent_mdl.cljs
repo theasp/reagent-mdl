@@ -477,6 +477,9 @@
 (defn list-item-text-body [& content]
   (mdl-element :span "mdl-list__item-text-body" content))
 
+(defn list-item-sub-title [& content]
+  (mdl-element :span "mdl-list__item-sub-title" content))
+
 (defn list-item-icon [& content]
   (mdl-element :i "material-icons mdl-list__item-icon" content))
 
