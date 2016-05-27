@@ -76,13 +76,9 @@
   (r/create-class
    {:display-name "textfield-state"
     :component-will-update
-    (fn [node [_ {:keys [disabled? value]}]]
+    (fn [node [_ {:keys [disabled? value error pattern]}]]
       (let [dom-node (r/dom-node node)]
-        (.MaterialTextfield.change dom-node value)))
-
-    :component-did-update
-    (fn [node [_ {:keys [value error pattern disabled?] :as props}]]
-      (let [dom-node (r/dom-node node)]
+        (.MaterialTextfield.change dom-node value)
         (if disabled?
           (.MaterialTextfield.disable dom-node)
           (.MaterialTextfield.enable dom-node))
@@ -92,6 +88,11 @@
                    (not (str/index-of (.-className dom-node) "is-invalid")))
           (set! (.-className dom-node) (str (.-className dom-node) " is-invalid")))
 
+        ))
+
+    :component-did-update
+    (fn [node [_ {:keys [value error pattern disabled?] :as props}]]
+      (let [dom-node (r/dom-node node)]
         (when (and value
                    (not (str/index-of (.-className dom-node) "is-dirty")))
           (set! (.-className dom-node) (str (.-className dom-node) " is-dirty")))))
