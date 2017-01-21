@@ -7,3 +7,6 @@
 
 (timbre/set-level! :trace) ; Uncomment for more logging
 (enable-console-print!)
+
+(deftest dummy
+  (is true))
