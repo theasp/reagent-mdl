@@ -1,4 +1,4 @@
-(defproject io.github.theasp/reagent-mdl "0.1.0-SNAPSHOT"
+(defproject ca.gt0.theasp/reagent-mdl "0.1.0-SNAPSHOT"
   :description "Reagent components for Material Design Lite"
   :url "http://github.com/theasp/reagent-mdl"
   :license {:name "Eclipse Public License"

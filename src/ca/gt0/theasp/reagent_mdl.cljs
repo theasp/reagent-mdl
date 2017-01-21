@@ -1,4 +1,4 @@
-(ns io.github.theasp.reagent-mdl
+(ns ca.gt0.theasp.reagent-mdl
   (:require
    [clojure.string :as str]
    [reagent.core :as r]
@@ -68,7 +68,11 @@
 (defn icon [& content]
   (mdl-element :i "material-icons" content))
 
-
+(defn textfield-set-invalid [dom-node error pattern]
+  (when (and error
+             (not pattern)
+             (not (str/index-of (.-className dom-node) "is-invalid")))
+    (set! (.-className dom-node) (str (.-className dom-node) " is-invalid"))))
 
 (defn textfield-state
   "Returns a reagent class that corrects the state of a checkbox"
@@ -76,31 +80,32 @@
   (r/create-class
    {:display-name "textfield-state"
     :component-will-update
-    (fn [node [_ {:keys [disabled? value error pattern]}]]
-      (let [dom-node (r/dom-node node)]
-        (.MaterialTextfield.change dom-node value)
+    (fn [node [_ {:keys [disabled? value error pattern] :as props}]]
+      (let [dom-node (r/dom-node node)
+            dirty?   (and (some? value) (not= "" value))]
         (if disabled?
           (.MaterialTextfield.disable dom-node)
           (.MaterialTextfield.enable dom-node))
-
-        (when (and error
-                   (not pattern)
-                   (not (str/index-of (.-className dom-node) "is-invalid")))
-          (set! (.-className dom-node) (str (.-className dom-node) " is-invalid")))
-
-        ))
+        (.MaterialTextfield.change dom-node value)
+        (.MaterialTextfield.checkValidity dom-node)
+        (textfield-set-invalid dom-node error pattern)
+        (when-not (str/index-of (.-className dom-node) "is-upgraded")
+          (debugf "Upgrading textfield again...")
+          (.upgradeElements js/componentHandler (r/dom-node node)))))
 
     :component-did-update
-    (fn [node [_ {:keys [value error pattern disabled?] :as props}]]
-      (let [dom-node (r/dom-node node)]
-        (when (and value
-                   (not (str/index-of (.-className dom-node) "is-dirty")))
-          (set! (.-className dom-node) (str (.-className dom-node) " is-dirty")))))
+    (fn [node [_ {:keys [value error pattern disabled?] :as props}]])
 
     :component-did-mount
     (fn [node]
       (let [dom-node (r/dom-node node)]
-        (.MaterialTextfield.change dom-node (:value props))))
+        (.upgradeElements js/componentHandler (r/dom-node node))
+        (.MaterialTextfield.change dom-node (:value props))
+        (textfield-set-invalid dom-node (:error props) (:pattern props))))
+
+    :component-will-unmount
+    (fn [node]
+      (.downgradeElements js/componentHandler (r/dom-node node)))
 
     :reagent-render
     (fn [child] child)}))
@@ -158,21 +163,22 @@
                                        (when (and error (not pattern))
                                          "is-invalid")])}]
     [textfield-state {:value     value
-                      :disabled? disabled?}
-     [upgrade
-      (if expandable?
-        [:div container-props
-         [:label.mdl-button.mdl-js-button.mdl-button--icon
-          icon
-          expandable-icon]
-         [:div.mdl-textfield__expandable-holder
-          input
-          label
-          error]]
-        [:div container-props
+                      :disabled? disabled?
+                      :error     error
+                      :pattern   pattern}
+     (if expandable?
+       [:div container-props
+        [:label.mdl-button.mdl-js-button.mdl-button--icon
+         icon
+         expandable-icon]
+        [:div.mdl-textfield__expandable-holder
          input
          label
-         error])]]))
+         error]]
+       [:div container-props
+        input
+        label
+        error])]))
 
 
 (defn set-checkbox-state [node props]
