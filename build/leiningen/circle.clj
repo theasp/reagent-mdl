@@ -1,14 +1,13 @@
 (ns leiningen.circle
-  (:require [leiningen
-             [core.eval :as eval]
-             [release :as release]
-             [deploy :as deploy]]))
+  (:require [leiningen.core.eval :as eval]
+            [leiningen.release :as release]
+            [leiningen.deploy :as deploy]))
 
 (defn env [s]
   (System/getenv s))
 
 (defn circle [project & args]
-  (let [branch (env "CIRCLE_BRANCH")]
+  (when-let [branch (env "CIRCLE_BRANCH")]
     (condp re-find branch
       #"master"
       (deploy/deploy project "clojars")
