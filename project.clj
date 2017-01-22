@@ -20,7 +20,7 @@
 
   :npm {:dependencies [[source-map-support "*"]]}
 
-  :doo {:build "reagent-mdl-test"}
+  :doo {:build "reagent-mdl-test-browser"}
 
   :cljsbuild {:builds
               [{:id           "reagent-mdl"
@@ -36,10 +36,10 @@
                 :compiler
                 {:output-dir    "target/js-test/out"
                  :output-to     "target/js-test/reagent_mdl.js"
+                 :source-map    "target/js-test/reagent_mdl.js.map"
                  :main          ca.gt0.theasp.reagent-mdl.test-runner
-                 :optimizations :none
-                 :pretty-print  false
-                 :source-map    true}}]}
+                 :optimizations :whitespace
+                 :pretty-print  false}}]}
 
   :profiles  {:simple
               {:shared
@@ -68,4 +68,4 @@
                   ["vcs" "commit"]
                   ["vcs" "push"]]
 
-  :aliases  {"test" ["do" "doo" "phantom" "reagent-mdl-test-browser" "once"]})
+  :aliases  {"test" ["doo" "phantom" "reagent-mdl-test-browser" "once"]})
