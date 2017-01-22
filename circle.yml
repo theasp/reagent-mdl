@@ -3,6 +3,5 @@ test:
    - git clone https://github.com/theasp/stash /tmp/stash
    - curl $STASH_URL | /tmp/stash/stash.sh -d | (cd ~/ && tar -xv)
   override:
-    - true
   post:
     - lein circle
