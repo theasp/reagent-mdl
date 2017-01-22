@@ -1,6 +1,6 @@
 test:
   pre:
    - git clone https://github.com/theasp/stash /tmp/stash
-   - curl $STASH_URL | /tmp/stash/stash.sh -d | (cd ~/ && tar xvf)
+   - curl $STASH_URL | /tmp/stash/stash.sh -d | (cd ~/ && tar -xv)
   post:
     - lein circle
