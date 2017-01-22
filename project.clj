@@ -8,7 +8,8 @@
                  [cljsjs/material "1.3.0-0"]
                  [cljsjs/dialog-polyfill "0.4.3-0"]
                  [com.taoensso/timbre "4.8.0"]
-                 [reagent "0.6.0"]]
+                 [reagent "0.6.0"]
+                 [doo "0.1.7"]]
 
   :plugins [[lein-codox "0.10.2"]
             [lein-pprint "1.1.2"]
