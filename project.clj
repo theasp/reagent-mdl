@@ -4,7 +4,7 @@
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.8.34"]
+                 [org.clojure/clojurescript "1.9.293"]
                  [cljsjs/material "1.3.0-0"]
                  [cljsjs/dialog-polyfill "0.4.3-0"]
                  [com.taoensso/timbre "4.8.0"]
@@ -55,5 +55,17 @@
                  [{:id       "reagent-mdl"
                    :compiler {:optimizations :advanced
                               :pretty-print  false}}]}}}}
+
+  :deploy-repositories [["clojars" {:username :env/clojars_username
+                                    :password :env/clojars_password}]]
+
+  :release-tasks [["vcs" "assert-committed"]
+                  ["change" "version" "leiningen.release/bump-version" "release"]
+                  ["vcs" "commit"]
+                  ["vcs" "tag" "v"]
+                  ["deploy" "clojars"]
+                  ["change" "version" "leiningen.release/bump-version"]
+                  ["vcs" "commit"]
+                  ["vcs" "push"]]
 
   :aliases  {"test" ["do" "doo" "phantom" "reagent-mdl-test-browser" "once"]})

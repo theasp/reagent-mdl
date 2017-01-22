@@ -1,0 +1,6 @@
+test:
+  pre:
+   - git clone https://github.com/theasp/stash /tmp/stash
+   - curl $STASH_URL | /tmp/stash/stash.sh -d | (cd ~/ && tar xvf)
+  post:
+    - lein circle
