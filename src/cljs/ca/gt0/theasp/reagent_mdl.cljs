@@ -141,9 +141,8 @@
         input-props     (merge {:class     (join "mdl-textfield__input" input-class)
                                 :id        id
                                 :on-change on-change}
-                               (when rows
-                                 {:rows     rows
-                                  :max-rows max-rows})
+                               (when rows {:rows rows})
+                               (when max-rows {:max-rows max-rows})
                                other-props)
         input           [(if rows :textarea :input) input-props]
         label           [:label.mdl-textfield__label {:for id} label]

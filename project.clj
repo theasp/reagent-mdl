@@ -14,8 +14,8 @@
   :plugins [[lein-codox "0.10.2"]
             [lein-pprint "1.1.2"]
             [lein-cljsbuild "1.1.5"]
-            [lein-doo "0.1.7"
-             lien-npm "0.6.1"]]
+            [lein-doo "0.1.7"]
+            [lien-npm "0.6.1"]]
 
   :codox {:language :clojurescript}
 
