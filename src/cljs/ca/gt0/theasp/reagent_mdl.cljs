@@ -126,34 +126,28 @@
 
 
         label           (or label content)
-
         id              (or id
                             (when (string? label)
                               (str/replace label #"[^a-zA-Z0-9]" "")))
-
         value           (if value
                           (if (fn? value)
                             (value)
                             value)
                           (when (some? cursor)
                             @cursor))
-
         on-change       (or on-change
                             (when (some? cursor)
                               #(reset! cursor (.-target.value %))))
-
-        input-props     (merge {:class     (join "mdl-textfield__input"
-                                                 input-class)
+        input-props     (merge {:class     (join "mdl-textfield__input" input-class)
                                 :id        id
-                                :rows      rows
-                                :max-rows  max-rows
                                 :on-change on-change}
+                               (when rows
+                                 {:rows     rows
+                                  :max-rows max-rows})
                                other-props)
-
         input           [(if rows :textarea :input) input-props]
         label           [:label.mdl-textfield__label {:for id} label]
         error           (when error [:span.mdl-textfield__error error])
-
         container-props {:style style
                          :class (join "mdl-textfield mdl-js-textfield"
                                       [(when expandable?
