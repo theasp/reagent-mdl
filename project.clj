@@ -17,15 +17,16 @@
             [lein-doo "0.1.7"]
             [lein-npm "0.6.1"]]
 
-  :codox {:language :clojurescript}
+  :hooks [leiningen.cljsbuild]
 
-  :npm {:dependencies [[source-map-support "*"]]}
+  :codox {:language :clojurescript}
 
   :doo {:build "reagent-mdl-test-browser"}
 
   :cljsbuild {:builds
               [{:id           "reagent-mdl"
                 :source-paths ["src/cljs"]
+                :jar          true
                 :compiler
                 {:output-dir    "target/js"
                  :output-to     "target/js/reagent_mdl.js"
@@ -41,6 +42,8 @@
                  :main          ca.gt0.theasp.reagent-mdl.test-runner
                  :optimizations :whitespace
                  :pretty-print  false}}]}
+
+  :prep-tasks ["compile" ["cljsbuild" "once"]]
 
   :profiles  {:simple
               {:shared
