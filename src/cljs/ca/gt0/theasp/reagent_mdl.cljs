@@ -18,23 +18,22 @@
     [(select-keys (first args) prop-list)
      (reduce #(dissoc %1 %2) (first args) prop-list)
      (rest args)]
-    [{} {} args]))
+    [nil nil args]))
+
+(defn upgrade-node [node]
+  (.upgradeElements js/componentHandler (r/dom-node node)))
+
+(defn downgrade-node [node]
+  (.downgradeElements js/componentHandler (r/dom-node node)))
 
 (defn upgrade
   "Returns a reagent class that upgrades it's child element"
   [child]
-  (r/create-class
-   {:display-name "mdl-upgrade"
-    :component-did-mount
-    (fn [node]
-      (.upgradeElements js/componentHandler (r/dom-node node)))
-
-    :component-will-unmount
-    (fn [node]
-      (.downgradeElements js/componentHandler (r/dom-node node)))
-
-    :reagent-render
-    (fn [child] child)}))
+  (-> {:display-name           "mdl-upgrade"
+       :component-did-mount    upgrade-node
+       :component-will-unmount downgrade-node
+       :reagent-render         identity}
+      (r/create-class)))
 
 (defn mdl-element [element base-class content & [upgrade? prop-to-class prop-list]]
   (let [prop-list
@@ -99,7 +98,7 @@
     :component-did-mount
     (fn [node]
       (let [dom-node (r/dom-node node)]
-        (.upgradeElements js/componentHandler (r/dom-node node))
+        (.upgradeElements js/componentHandler dom-node)
         (.MaterialTextfield.change dom-node (:value props))
         (textfield-set-invalid dom-node (:error props) (:pattern props))))
 
@@ -268,15 +267,15 @@
         label-props {:class (join "mdl-radio mdl-js-radio"
                                   [(when ripple? "mdl-js-ripple-effect")])}
 
-        checked?    (if (some? checked?)
-                      checked?
-                      (when (some? cursor)
-                        (= @cursor value)))
+        checked? (if (some? checked?)
+                   checked?
+                   (when (some? cursor)
+                     (= @cursor value)))
 
-        on-change   (or on-change
-                        (when (some? cursor)
-                          #(when (.-target.checked %)
-                             (reset! cursor value))))
+        on-change (or on-change
+                      (when (some? cursor)
+                        #(when (.-target.checked %)
+                           (reset! cursor value))))
 
         input-props (merge {:class     ""
                             :type      :radio
