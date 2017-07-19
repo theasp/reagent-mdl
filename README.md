@@ -1,14 +1,2 @@
-# io.github.theasp.reagent-mdl
-
-A Clojure library designed to ... well, that part is up to you.
-
-## Usage
-
-FIXME
-
-## License
-
-Copyright © 2016 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+I've decided to abandon this project as the MDL development has moved to [Material Components for the web](https://github.com/material-components/material-components-web), see [Material Design Lite](
+https://github.com/google/material-design-lite) for more information.
